@@ -34,4 +34,14 @@ class User < ApplicationRecord
     self.session_token ||= SecureRandom.urlsafe_base64
   end
 
+  def is_password?(password)
+    BCrypt::Password.new(password_digest).is_password?(password)
+  end
+
+  def self.find_by_credentials(username, password)
+    user = User.find_by(username: username)
+    return nil if user.nil?
+    user.is_password?(password) ? user : nil
+  end
+
 end

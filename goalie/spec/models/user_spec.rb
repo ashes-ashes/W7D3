@@ -33,4 +33,43 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "is_password" do
+    context "input is not the password" do
+      it "returns false" do
+        expect(FactoryBot.build(:user).is_password?('football')).to be_falsey
+      end
+    end
+
+    context "input is the password" do
+      it "returns true" do
+        expect(FactoryBot.build(:user).is_password?('password')).to be_truthy
+      end
+    end
+  end
+
+  describe "find_by_credentials" do
+    
+    user = User.find_by(username: 'jimmy') || FactoryBot.create(:user, username: 'jimmy')
+
+    context "user exists and password is correct" do
+      it "returns the user" do
+        expect(User.find_by_credentials('jimmy', 'password')).to eq(user)
+      end
+    end
+
+    context "user exists and password is incorrect" do
+      it "returns nil" do
+        expect(User.find_by_credentials('jimmy', 'football')).to be_nil
+      end
+    end
+
+    context "user does not exist" do
+      it "returns nil" do
+        expect(User.find_by_credentials('horton', 'spangle')).to be_nil
+      end
+    end
+
+  end
+
+
 end
