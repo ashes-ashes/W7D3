@@ -48,23 +48,24 @@ RSpec.describe User, type: :model do
   end
 
   describe "find_by_credentials" do
-    
-    user = User.find_by(username: 'jimmy') || FactoryBot.create(:user, username: 'jimmy')
 
     context "user exists and password is correct" do
       it "returns the user" do
+        user =  FactoryBot.create(:user, username: 'jimmy')
         expect(User.find_by_credentials('jimmy', 'password')).to eq(user)
       end
     end
 
     context "user exists and password is incorrect" do
       it "returns nil" do
+        user =  FactoryBot.create(:user, username: 'jimmy')
         expect(User.find_by_credentials('jimmy', 'football')).to be_nil
       end
     end
 
     context "user does not exist" do
       it "returns nil" do
+        user =  FactoryBot.create(:user, username: 'jimmy')
         expect(User.find_by_credentials('horton', 'spangle')).to be_nil
       end
     end
