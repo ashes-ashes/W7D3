@@ -10,6 +10,16 @@
   </head>
 
   <body>
+    <header>
+      Hi, <%=current_user ? current_user.username : "stranger"%>!
+      <br>
+      <%if logged_in?%>
+      <form action="<%=session_url%>" method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Log Out">
+      </form>
+      <%end%>
+    </header>
     <%= yield %>
   </body>
 </html>

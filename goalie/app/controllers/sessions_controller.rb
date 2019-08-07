@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
+    @user = User.new
     render :new
   end
 
@@ -10,7 +11,7 @@ class SessionsController < ApplicationController
       login(@user)
       redirect_to user_url(@user)
     else
-      flash.now[:errors] = @user.errors.full_messages
+      flash.now[:errors] = ['Invalid username or password!']
       render :new
     end 
   end
